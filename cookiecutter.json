@@ -1,0 +1,8 @@
+{
+    "project_name": "",
+    "description": "",
+    "module_name": "{{cookiecutter.project_name|lower|replace(' ','_')|replace('-','_')}}",
+    "maintainer_name": "Michael Wellner",
+    "maintainer_email": "info@michaelwellner.de",
+    "license": "Apache-2.0"
+}

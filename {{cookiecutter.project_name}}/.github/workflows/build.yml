@@ -1,0 +1,38 @@
+name: Python Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.0"
+      - name: Set up Poetry
+        uses: abatilo/actions-poetry@v2.1.6
+        with:
+          poetry-version: 1.4.0
+      - name: Install dependencies
+        run: |
+          poetry --version
+          poetry install
+      - name: Check Code Quality
+        run: |
+          poetry run poe style
+      - name: Run tests
+        run: |
+          poetry run poe test
+      - name: Build and release package
+        run: |
+          poetry build
+          poetry config pypi-token.pypi ${{ "{{"" }} secrets.PYPI_API_TOKEN {{ "}}" }}
+          poetry publish
+        if: github.event_name == 'push'
